@@ -1,0 +1,40 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1, h2 {
+    color: #454570;
+    margin-bottom: 30px;
+}
+
+ul {
+    border: 3px solid #454570;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fav_food_img {
+    display: inline-block;
+    width: 200px;
+    height: 300px;
+    background-image: url("images/ribs.jpeg");
+    background-size: contain;
+}
+
+.fav_food_desc {
+    display: inline-block;
+}
+
+td {
+    border: 1px solid #25253d;
+}
+
+tr:nth-child(even) {
+    background-color: #b5b5d4;
+}
+
+.social_icons {
+    position: fixed; /* or absolute? */
+    top: 100px;
+    right: 30px;
+}
