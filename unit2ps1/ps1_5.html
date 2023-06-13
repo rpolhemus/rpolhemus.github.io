@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>Problem 5</title>
+    </head>
+    <body>
+        <h1>Problem 5</h1>
+
+        <p id="output_box"></p>
+
+        <script>
+            // Takes Number num and optionally Number table_depth, String HTML element ID
+            // Returns nothing
+            // Sets the HTML element with ID elem_id to a times table of num * 1 up to num * table_depth
+            function make_times_table(num, table_depth=12, elem_id="output_box") {
+                out_str = "";
+                for (let i = 1; i <= table_depth; i++) {
+                    out_str += `${num} x ${i} = ${num * i}<br>`;
+                }
+                document.getElementById(elem_id).innerHTML = out_str;
+            }
+
+            num = Number(prompt("Enter a number:"));
+
+            make_times_table(num);
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>Problem 2</title>
+    </head>
+    <body>
+        <h1>Problem 2</h1>
+
+        <script>
+            temp_f = Number(prompt("Please enter the temperature in degrees Fahrenheit:"));
+            conv_temp_c = ((temp_f - 32) * 5 / 9).toFixed(2);
+            alert(`The equivalent temperature in Celsius is ${conv_temp_c} degrees.`);
+
+            temp_c = Number(prompt("Please enter the temperature in degrees Celsius:"));
+            conv_temp_f = (temp_c * 9 / 5 + 32).toFixed(2);
+            alert(`The equivalent temperature in Fahrenheit is ${conv_temp_f} degrees.`);
+        </script>
+
+    </body>
+</html>

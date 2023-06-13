@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>Problem 3</title>
+    </head>
+    <body>
+        <h1>Problem 3</h1>
+
+        <p id="output_box"></p>
+
+        <script>
+            first_num  = Number(prompt("Enter the first number:"));
+            second_num = Number(prompt("Enter the second number:"));
+
+            out_str = first_num < second_num ? `${first_num} ${second_num}` : `${second_num} ${first_num}`;
+            document.getElementById("output_box").innerHTML = out_str;
+        </script>
+
+    </body>
+</html>

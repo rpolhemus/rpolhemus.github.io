@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <title>Problem 1</title>
+    </head>
+    <body>
+        <h1>Problem 1</h1>
+
+        <p id="output_box"></p>
+
+        <script>
+            firstname = prompt(`What is your first name?`);
+            lastname  = prompt(`What is your last name?`);
+            alert(`Your name is ${firstname} ${lastname}.`);
+
+            num_children = Number(prompt(`How many children do you have?`));
+            if (num_children == 0) {
+                out_str = `You have no children.`
+            }
+            else if (num_children == 1) {
+                out_str = `You have ${num_children} child.`
+            }
+            else {
+                out_str = `You have ${num_children} children.`
+            }
+            document.getElementById("output_box").innerHTML = out_str;
+        </script>
+
+    </body>
+</html>
