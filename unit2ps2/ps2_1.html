@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>Problem 1</title>
+    </head>
+    <body>
+        <h1>Problem 1</h1>
+
+        <p id="output_box"></p>
+
+        <script>
+            sentence = prompt("Please enter a sentence: ");
+            num_words = sentence.split(" ").length;
+
+            document.getElementById("output_box").innerHTML = `The sentence ${sentence} has ${num_words} words in it.`;
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>Problem 2</title>
+    </head>
+    <body>
+        <h1>Problem 2</h1>
+
+        <p id="output_box"></p>
+
+        <script>
+            names_str = "Pat, Chris, Marlon, Ferncroft, Assunta";
+            html_str = "<ol>"
+
+            html_str = names_str.split(", ").reduce( (acc, curr) => acc + `\n\t<li>${curr}</li>` );
+            html_str += "\n<ol>"
+            document.getElementById("output_box").innerHTML = html_str;
+        </script>
+
+    </body>
+</html>
