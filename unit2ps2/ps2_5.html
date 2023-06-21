@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <html>
     <head>
         <title>Problem 5</title>
@@ -5,13 +7,52 @@
     <body>
         <h1>Problem 5</h1>
 
-        <p id="output_box"></p>
+        <form action="#">
+            
+            <!-- <label for="fname">First Name: </label> -->
+            <select name="item_selector" id="item_selector"></select>
+            <input type="number" name="number_input" id="number_input">
+
+            <input type="button" id="add_button" value="Add">
+            <input type="button" id="startover_button" value="Start Over">
+        </form>
+
+        <div id="display"></div>
 
         <script>
-            items = ["milk", "bread", "eggs", "lettuce", "apples"];
-            prices = [1, 2, 3, 4, 5]
+            items = ["Milk", "Bread", "Eggs", "Lettuce", "Apples"];
+            prices = [1, 2, 3, 4, 5];
+            total = 0;
 
-            
+            display_html = "";
+
+            html_str = items.reduce( (acc, curr) => acc + `\n\t<option value=${curr}>${curr}</option>`, initialValue="" );
+            document.getElementById("item_selector").innerHTML = html_str;
+
+            document.getElementById("add_button").addEventListener("click", () => {
+                input_val_ele = document.getElementById("number_input");
+                input_val = input_val_ele.value;
+                if (input_val < 1 || input_val > 100) {
+                    alert(`Value ${input_val} is not between 1 and 100, inclusive.`);
+                    return false;
+                }
+
+                selector = document.getElementById("item_selector");
+                item = selector.options[selector.selectedIndex].value;
+
+                item_price = input_val * prices[items.indexOf(item)];
+                total += item_price;
+
+                display_html += `<br>${input_val} ${item}: $${item_price}`;
+                document.getElementById("display").innerHTML = display_html + `<br><br>Total price: $${total}`;
+
+            });
+
+            document.getElementById("startover_button").addEventListener("click", () => {
+                total = 0;
+                display_html = "";
+                document.getElementById("display").innerHTML = display_html + `<br><br>Total price: $${total}`;
+            });
         </script>
 
     </body>

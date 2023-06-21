@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+    <head>
+        <title>Problem 6</title>
+    </head>
+    <body>
+        <h1>Problem 6</h1>
+
+        <form action="#">
+            
+            <!-- <label for="fname">First Name: </label> -->
+            <select name="item_selector" id="item_selector"></select>
+            <input type="number" name="number_input" id="number_input">
+
+            <input type="button" id="add_button" value="Add">
+            <input type="button" id="startover_button" value="Start Over">
+        </form>
+
+        <div id="display"></div>
+
+        <script>
+            function gen_html_line(item_obj) {
+                return `<br>${item_obj.quantity} ${item_obj.name}: $${item_obj.quantity * item_obj.price}`;
+            }
+            function gen_total_line() {
+                total_price = items_arr.reduce( (acc, curr) => acc + curr.price * curr.quantity, initialValue=0 );
+                return `<br><br>Total price: $${total_price}`;
+            }
+            function gen_all_html() {
+                return items_arr.reduce( (acc, curr) => {
+                    return curr.quantity > 0 ?
+                    acc + gen_html_line(curr) :
+                    acc },
+                    ""
+                ) + gen_total_line();
+            }
+
+            items_arr = [{name: "Milk", price: 1, quantity: 0}, {name: "Bread", price: 2, quantity: 0}, {name: "Eggs", price: 3, quantity: 0}, {name: "Lettuce", price: 4, quantity: 0}, {name: "Apples", price: 5, quantity: 0}];
+
+
+            html_str = items_arr.reduce( (acc, curr) => acc + `\n\t<option value=${curr.name}>${curr.name}</option>`, initialValue="" );
+            document.getElementById("item_selector").innerHTML = html_str;
+
+            document.getElementById("add_button").addEventListener("click", () => {
+                input_val_ele = document.getElementById("number_input");
+                input_val = input_val_ele.value;
+                if (input_val < 1 || input_val > 100) {
+                    alert(`Value ${input_val} is not between 1 and 100, inclusive.`);
+                    return false;
+                }
+
+                selector = document.getElementById("item_selector");
+                item = selector.options[selector.selectedIndex].value;
+                item_obj = items_arr.find(obj => { return obj.name === item });
+
+                item_obj.quantity += Number(input_val);
+
+                document.getElementById("display").innerHTML = gen_all_html();
+
+            });
+
+            document.getElementById("startover_button").addEventListener("click", () => {
+                items_arr = items_arr.map( curr => {
+                    curr.quantity = 0;
+                    return curr;
+                } );
+                document.getElementById("display").innerHTML = gen_all_html();
+            });
+        </script>
+
+    </body>
+</html>

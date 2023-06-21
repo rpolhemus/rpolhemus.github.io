@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <html>
     <head>
         <title>Problem 4</title>
@@ -5,10 +7,31 @@
     <body>
         <h1>Problem 4</h1>
 
-        <p id="output_box"></p>
+        <form action="#">
+            
+            <label for="fname">First Name: </label>
+            <input type="text" id="fname" name="firstname" placeholder="Your name">
+        
+            <input type="button" id="hello_button" value="Hello">
+            <input type="button" id="goodbye_button" value="Goodbye">
+            <input type="button" id="greetings_button" value="Greetings">
+        
+        </form>
 
         <script>
-            
+            function speak() {
+                name = document.getElementById("fname").value;
+                prefix = this.value;
+                alert(`${prefix} ${name}`);
+            }
+
+            function assign_listeners() {
+                document.getElementById("hello_button").addEventListener("click", speak);
+                document.getElementById("goodbye_button").addEventListener("click", speak);
+                document.getElementById("greetings_button").addEventListener("click", speak);
+            }
+
+            window.addEventListener("load", assign_listeners);
         </script>
 
     </body>
