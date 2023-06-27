@@ -3,30 +3,55 @@
 <html>
     <head>
         <title>Problem 3</title>
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     </head>
     <body>
         <h1>Problem 3</h1>
 
         <form action="#">
             
-            <label for="fname">First Name: </label>
-            <input type="text" id="fname" name="firstname" placeholder="Your name">
+            <label for="genre">Genre: </label>
+            <select name="genre_selector" id="genre_selector"></select>
         
-            <input type="button" id="hello_button" value="Hello">
-            <input type="button" id="goodbye_button" value="Goodbye">
-            <input type="button" id="greetings_button" value="Greetings">
+            <input type="button" id="filter_button" value="Filter">
         
         </form>
 
-        <script>
-            function speak(prefix) {
-                name = document.getElementById("fname").value;
-                alert(`${prefix} ${name}`);
-            }
+        <div id="output_box"></div>
 
-            document.getElementById("hello_button").addEventListener("click", () => speak("Hello"));
-            document.getElementById("goodbye_button").addEventListener("click", () => speak("Goodbye"));
-            document.getElementById("greetings_button").addEventListener("click", () => speak("Greetings"));
+        <script>
+            songs_json = "";
+            $.get("https://rpolhemus.github.io/unit2ps3/songs.json", function(data) {
+                songs_json = data;
+                sel = $.get("#genre_selector");
+                genres = new Set();
+
+                $.each(songs_json,
+                    function(song) {
+                        $.each(song.genres, (genre) => {genres.add(genre)});
+                    }
+                )
+
+                $.each(genres, 
+                    function(genre) {
+                        sel.append($("<option></option>").attr("value", genre));
+                    }
+                )
+            });
+
+            $("#filter_button").on("click", function() {
+                selected_genre = $("#genre_selector").val();
+                html_str = "";
+                $.each(songs_json, 
+                    function(song) {
+                        if(song.genres.includes(selected_genre)) {
+                            html_str += `${song.title}<br>`;
+                        }
+                    }
+                );
+                $("#output_box").html(html_str);
+            })
+
         </script>
 
     </body>
