@@ -27,30 +27,32 @@
                 genres = new Set();
 
                 $.each(songs_json,
-                    function(song) {
-                        $.each(song.genres, (genre) => {genres.add(genre)});
+                    function(_, song) {
+                        $.each(song.genres, (_, genre) => {genres.add(genre)});
                     }
                 )
 
                 $.each(genres, 
-                    function(genre) {
+                    function(_, genre) {
                         sel.append($("<option></option>").attr("value", genre));
                     }
                 )
-            });
 
-            $("#filter_button").on("click", function() {
+                $("#filter_button").on("click", function() {
                 selected_genre = $("#genre_selector").val();
                 html_str = "";
                 $.each(songs_json, 
-                    function(song) {
+                    function(_, song) {
                         if(song.genres.includes(selected_genre)) {
                             html_str += `${song.title}<br>`;
                         }
                     }
                 );
                 $("#output_box").html(html_str);
-            })
+                })
+            });
+
+            
 
         </script>
 
