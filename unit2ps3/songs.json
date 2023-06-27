@@ -1,0 +1,62 @@
+[
+    {
+        "title":"Like a Rolling Stone",
+        "artist":"Bob Dylan",
+        "genres":["folk rock"],
+        "release":"1965"
+    },
+    {
+        "title":"(I Can't Get No) Satisfaction",
+        "artist":"The Rolling Stones",
+        "genres":["blues rock", "hard rock"],
+        "release":"1965"
+    },
+    {
+        "title":"Imagine",
+        "artist":"John Lennon",
+        "genres":["soft rock"],
+        "release":"1971"
+    },
+    {
+        "title":"What's Going On",
+        "artist":"Marvin Gaye",
+        "genres":["soul", "r and b"],
+        "release":"1971"
+    },
+    {
+        "title":"Respect",
+        "artist":"Aretha Franklin",
+        "genres":["soul"],
+        "release":"1967"
+    },
+    {
+        "title":"Good Vibrations",
+        "artist":"The Beach Boys",
+        "genres":["acid rock", "r and b"],
+        "release":"1966"
+    },
+    {
+        "title":"Johnny B. Goode",
+        "artist":"Chuck Berry",
+        "genres":["rock"],
+        "release":"1958"
+    },
+    {
+        "title":"Hey Jude",
+        "artist":"The Beatles",
+        "genres":["rock", "pop"],
+        "release":"1968"
+    },
+    {
+        "title":"Smells Like Teen Spirit",
+        "artist":"Nirvana",
+        "genres":["grunge", "alt rock"],
+        "release":"1991"
+    },
+    {
+        "title":"What'd I Say",
+        "artist":"Ray Charles",
+        "genres":["r and b", "soul", "jazz"],
+        "release":"1959"
+    }
+]

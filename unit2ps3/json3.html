@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+    <head>
+        <title>Problem 3</title>
+    </head>
+    <body>
+        <h1>Problem 3</h1>
+
+        <form action="#">
+            
+            <label for="fname">First Name: </label>
+            <input type="text" id="fname" name="firstname" placeholder="Your name">
+        
+            <input type="button" id="hello_button" value="Hello">
+            <input type="button" id="goodbye_button" value="Goodbye">
+            <input type="button" id="greetings_button" value="Greetings">
+        
+        </form>
+
+        <script>
+            function speak(prefix) {
+                name = document.getElementById("fname").value;
+                alert(`${prefix} ${name}`);
+            }
+
+            document.getElementById("hello_button").addEventListener("click", () => speak("Hello"));
+            document.getElementById("goodbye_button").addEventListener("click", () => speak("Goodbye"));
+            document.getElementById("greetings_button").addEventListener("click", () => speak("Greetings"));
+        </script>
+
+    </body>
+</html>

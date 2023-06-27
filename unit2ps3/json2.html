@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+    <head>
+        <title>Problem 2</title>
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <h1>Problem 2</h1>
+
+        <p id="output_box"></p>
+
+        <script>
+            $.get("http://rpolhemus.github.io/unit2ps3/songs.json",
+                function(data) {
+                    html_str = "";
+
+                    data.forEach(
+                        function(song) {
+                            html_str += `<p>`
+                                + `${song.title}<br>`
+                                + `Artist: ${song.artist}<br>`
+                                + `Genre: ${song.genres.join(", ")}<br>`
+                                + `Released ${song.release}<br>`
+                                + `</p>`
+                        }
+                    );
+
+                    document.getElementById("output_box").innerHTML = html_str;
+                }    
+            )
+        </script>
+
+    </body>
+</html>
