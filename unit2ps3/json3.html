@@ -26,14 +26,20 @@
                 sel = $.get("#genre_selector");
                 genres = new Set();
 
+                console.log(`songs json length: ${songs_json.length}`);
+                
                 $.each(songs_json,
                     function(_, song) {
-                        $.each(song.genres, (_, genre) => {genres.add(genre)});
+                        $.each(song.genres, (_, genre) => {genres.add(genre); 
+                        console.log(`in first each, looping, adding genre ${genre}`);});
                     }
                 )
 
+                console.log(`songs json length: ${songs_json.length}`);
+
                 $.each(genres, 
                     function(_, genre) {
+                        console.log(`Looping second, genre is ${genre}`);
                         sel.append($("<option></option>").attr("value", genre));
                     }
                 )
