@@ -17,7 +17,7 @@
         <div id="output_box"></div>
 
         <div>
-            API used: <a href="https://gutendex.com/">Gutendex
+            API used: <a href="https://gutendex.com/">Gutendex</a>
             Found on https://github.com/public-api-lists/public-api-lists
             The only info I used was a search term - no key required
             This API could be useful to search project Gutenberg, either for library-like applications, or to collate the data when using it as a dataset. It could also be interesting to get statistics on the Gutenberg collection, which includes most books in the public domain. 
@@ -28,6 +28,9 @@
                 request = new XMLHttpRequest();
                 request.open("GET", url, true);
                 request.onreadystatechange = function() {
+                    if (request.readyState == 3) {
+                        $("#output_box").innerHTML = "Loading...";
+                    }
                     if (request.readyState == 4 && request.status == 200) {
                         display_books(JSON.parse(request.responseText))
                     }
@@ -36,7 +39,7 @@
             }
 
             function js_fetch(url) {
-                fetch(url).then(data => display_books(data)).catch(error => console.log(error))
+                fetch(url).then((data) => display_books(data.json())).catch(error => console.log(error));
             }
 
             function display_books(data) {
