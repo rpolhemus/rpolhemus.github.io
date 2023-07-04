@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+    <head>
+        <title>Problem 1</title>
+        <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <h1>Problem 1</h1>
+
+        <form action="#">
+            <input type="button" id="ajax_button" value="AJAX get" onclick='ajax_get("https://gutendex.com/books?search=Shakespeare")'>
+            <input type="button" id="filter_button" value="Fetch" onclick='js_fetch("https://gutendex.com/books?search=Oscar%20Wilde")'>
+        
+        </form>
+
+        <div id="output_box"></div>
+
+        <div>
+            API used: <a href="https://gutendex.com/">Gutendex
+            Found on https://github.com/public-api-lists/public-api-lists
+            The only info I used was a search term - no key required
+            This API could be useful to search project Gutenberg, either for library-like applications, or to collate the data when using it as a dataset. It could also be interesting to get statistics on the Gutenberg collection, which includes most books in the public domain. 
+        </div>
+
+        <script>
+            function ajax_get(url) {
+                request = new XMLHttpRequest();
+                request.open("GET", url, true);
+                request.onreadystatechange = function() {
+                    if (request.readyState == 4 && request.status == 200) {
+                        display_books(JSON.parse(request.responseText))
+                    }
+                };
+                request.send();
+            }
+
+            function js_fetch(url) {
+                fetch(url).then(data => display_books(data)).catch(error => console.log(error))
+            }
+
+            function display_books(data) {
+                html_str = "";
+
+                $.each(data.results, 
+                    function(_, result) {
+                        html_str += `<p>`
+                            + `${result.title}<br>`
+                            + `Author(s): ${result.authors.map(r => r.name).join(" and ")}<br>`
+                            + `</p>`
+                    }
+                    )
+
+                document.getElementById("output_box").innerHTML = html_str;
+            }
+
+            // ret_json = "";
+            // api_url = "https://gutendex.com/books?";
+            // search_query = "q=" + $("#search_box").val();
+            // $.get(api_url + search_query, 
+            //     function(data) {
+                    
+            //     }   
+            // );
+
+            
+
+        </script>
+
+    </body>
+</html>
