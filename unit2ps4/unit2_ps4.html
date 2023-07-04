@@ -28,9 +28,6 @@
                 request = new XMLHttpRequest();
                 request.open("GET", url, true);
                 request.onreadystatechange = function() {
-                    if (request.readyState == 3) {
-                        $("#output_box").innerHTML = "Loading...";
-                    }
                     if (request.readyState == 4 && request.status == 200) {
                         display_books(JSON.parse(request.responseText))
                     }
@@ -56,17 +53,6 @@
 
                 document.getElementById("output_box").innerHTML = html_str;
             }
-
-            // ret_json = "";
-            // api_url = "https://gutendex.com/books?";
-            // search_query = "q=" + $("#search_box").val();
-            // $.get(api_url + search_query, 
-            //     function(data) {
-                    
-            //     }   
-            // );
-
-            
 
         </script>
 
