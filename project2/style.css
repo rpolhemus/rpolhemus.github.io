@@ -23,8 +23,20 @@
     text-align: center;
     font-size: 40px;
     border-style: solid;
-    min-width: 75px;
-    min-height: 75px;
+}
+
+@media screen and (min-width: 0px) {
+    .box {
+        min-width: 50px;
+        min-height: 50px;
+    }
+}
+
+@media screen and (min-width: 650px) {
+    .box {
+        min-width: 75px;
+        min-height: 75px;
+    }
 }
 
 .white {

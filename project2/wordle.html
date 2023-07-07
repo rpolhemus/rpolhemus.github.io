@@ -87,6 +87,7 @@
 
             clear() {
                 this.setChar("");
+                this.setColor("white");
             }
         }
 
@@ -122,6 +123,7 @@
                 var tmp
                 $.ajax(settings).done( (response) => {
                     this.word = response.word.toUpperCase();
+                    console.log(`The answer is: ${this.word}`);
                     this.genHTML();
                 });
             }
@@ -135,7 +137,6 @@
                     this.grid[this.numGuesses][i].setChar(upperGuess[i]);
                     if (cmpGuess[i] == this.word[i]) {
                         this.grid[this.numGuesses][i].setColor("green");
-                        console.log("changing color")
                         cmpGuess[i] = "#";
                     }
                 }
@@ -143,16 +144,14 @@
                     idx = cmpGuess.indexOf(this.word[i])
                     if (idx > -1) {
                         this.grid[this.numGuesses][idx].setColor("yellow");
-                        console.log("changing color")
                         cmpGuess[idx] = "#";
                     }
                 }
 
                 this.numGuesses++;
-                if (this.numGuesses == 6) {
-                    document.getElementById("new_game").style = "display: inline-block";
-                }
                 this.genHTML();
+
+                setTimeout(() => this.checkVictory(upperGuess), 5); // Duct tape fix to ensure the HTML updates before the alert
             }
 
             genHTML() {
@@ -166,22 +165,52 @@
                 return this.html;
             }
 
-            clear() {
+            reset() {
                 for (let row = 0; row < 6; row++) {
                     for (let col = 0; col < 5; col++) {
                         this.grid[row][col].clear();
                     }
                 }
                 this.numGuesses = 0;
+                $("#new_game").css ("display", "none");
+                this.html = "Please wait, loading...";
+                document.getElementById(this.elemID).innerHTML = this.html;
+                document.getElementById("submit_guess").addEventListener("click", () => grid.guessWord(document.getElementById("guess").value));
                 this.genHTML();
+                this.acquireWord();
+            }
+
+            checkVictory(lastGuess) {
+                if (lastGuess === this.word || this.numGuesses == 6) {
+                    var alertStr = "If you see this, something broke"
+                    if (lastGuess === this.word) {
+                        if (this.numGuesses == 1) {
+                            alertStr = `Congrats! You got it in ${this.numGuesses} try!`
+                        }
+                        else {
+                            alertStr = `Congrats! You got it in ${this.numGuesses} tries!`
+                        }
+                    }
+                    else if (this.numGuesses == 6) {
+                        alertStr = `You're out of tries... The correct answer was ${this.word}`;
+                    }
+                    alert(alertStr);
+                    $("#new_game").css("display", "inline-block");
+                    document.getElementById("submit_guess").removeEventListener("click", submitGuess);
+                }
+                
             }
         }
 
         grid = new GameGrid("game");
 
-        document.getElementById("submit_guess").addEventListener("click", () => grid.guessWord(document.getElementById("guess").value));
 
-        document.getElementById("new_game").addEventListener("click", () => grid.clear());
+        function submitGuess() {
+            grid.guessWord(document.getElementById("guess").value)
+        }
+        document.getElementById("submit_guess").addEventListener("click", submitGuess);
+
+        document.getElementById("new_game").addEventListener("click", () => grid.reset());
 
     </script>
 </body>
