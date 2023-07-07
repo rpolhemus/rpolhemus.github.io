@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>Wordle</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="topbar">
+        <h1>Welcome to Wordle!</h1>
+    </div>
+    <div id="game_container">
+        <div id="game">
+            <!-- <div class="box">11</div>
+            <div class="box">12</div>
+            <div class="box">13</div>
+            <div class="box">14</div>
+            <div class="box">15</div>
+            <div class="box">21</div>
+            <div class="box">22</div>
+            <div class="box">23</div>
+            <div class="box">24</div>
+            <div class="box">25</div>
+            <div class="box">31</div>
+            <div class="box">32</div>
+            <div class="box">33</div>
+            <div class="box">34</div>
+            <div class="box">35</div>
+            <div class="box">41</div>
+            <div class="box">42</div>
+            <div class="box">43</div>
+            <div class="box">44</div>
+            <div class="box">45</div>
+            <div class="box">51</div>
+            <div class="box">52</div>
+            <div class="box">53</div>
+            <div class="box">54</div>
+            <div class="box">55</div>
+            <div class="box">61</div>
+            <div class="box">62</div>
+            <div class="box">63</div>
+            <div class="box">64</div>
+            <div class="box">65</div> -->
+        </div>
+    </div>
+    <div id="guessbar">
+        <form action="#">
+            
+            <label for="guess">What is your guess? </label>
+            <input type="text" id="guess" name="guess" placeholder="Guess">
+
+            <br>
+
+            <input type="button" id="submit_guess" value="Check my Guess">
+            <input type="button" id="new_game" value="New Game" style="display: none">
+        
+        </form>
+    </div>
+
+    <script>
+        class GridElem {
+            constructor() {
+                this.character = "";
+                this.color = "white"; // "white", "yellow", "green"
+                this.html = this.genHTML();
+            }
+
+            genHTML() {
+                this.html = `<div class="box ${this.color}">${this.character}</div>\n`
+                return this.html;
+            }
+
+            setChar(char) {
+                this.character = char;
+                this.genHTML();
+            }
+
+            setColor(color) {
+                if (!(["white", "yellow", "green"].indexOf(color) > -1)) {
+                    console.error("Invalid color: " + color);
+                    return;
+                }
+                this.color = color;
+                this.genHTML();
+            }
+
+            clear() {
+                this.setChar("");
+            }
+        }
+
+        class GameGrid {
+            constructor(elemID) {
+                this.elemID = elemID;
+                this.grid = new Array(6);
+                for (let row = 0; row < 6; row++) {
+                    this.grid[row] = new Array(5);
+                    for (let col = 0; col < 5; col++) {
+                        this.grid[row][col] = new GridElem();
+                    }
+                }
+
+                this.numGuesses = 0;
+                this.html = "Please wait, loading...";
+                document.getElementById(this.elemID).innerHTML = this.html;
+                this.acquireWord();
+            }
+
+            acquireWord() {
+                const settings = {
+                async: true,
+                crossDomain: true,
+                url: 'https://random-word-api.p.rapidapi.com/L/5',
+                method: 'GET',
+                headers: {
+                    // unideal, but eh.. go crazy?
+                    'X-RapidAPI-Key': 'd211a1f59dmshf60e2e91660d6fdp1d72a6jsn756967628a55',
+                    'X-RapidAPI-Host': 'random-word-api.p.rapidapi.com'
+                }
+                };
+                var tmp
+                $.ajax(settings).done( (response) => {
+                    this.word = response.word.toUpperCase();
+                    this.genHTML();
+                });
+            }
+
+            guessWord(guess) {
+                var upperGuess = guess.toUpperCase();
+                var cmpGuess = upperGuess.split("");
+                var idx;
+
+                for (let i = 0; i < 5; i++) {
+                    this.grid[this.numGuesses][i].setChar(upperGuess[i]);
+                    if (cmpGuess[i] == this.word[i]) {
+                        this.grid[this.numGuesses][i].setColor("green");
+                        console.log("changing color")
+                        cmpGuess[i] = "#";
+                    }
+                }
+                for (let i = 0; i < 5; i++) {
+                    idx = cmpGuess.indexOf(this.word[i])
+                    if (idx > -1) {
+                        this.grid[this.numGuesses][idx].setColor("yellow");
+                        console.log("changing color")
+                        cmpGuess[idx] = "#";
+                    }
+                }
+
+                this.numGuesses++;
+                if (this.numGuesses == 6) {
+                    document.getElementById("new_game").style = "display: inline-block";
+                }
+                this.genHTML();
+            }
+
+            genHTML() {
+                this.html = ""
+                for (let row = 0; row < 6; row++) {
+                    for (let col = 0; col < 5; col++) {
+                        this.html += this.grid[row][col].html;
+                    }
+                }
+                document.getElementById(this.elemID).innerHTML = this.html;
+                return this.html;
+            }
+
+            clear() {
+                for (let row = 0; row < 6; row++) {
+                    for (let col = 0; col < 5; col++) {
+                        this.grid[row][col].clear();
+                    }
+                }
+                this.numGuesses = 0;
+                this.genHTML();
+            }
+        }
+
+        grid = new GameGrid("game");
+
+        document.getElementById("submit_guess").addEventListener("click", () => grid.guessWord(document.getElementById("guess").value));
+
+        document.getElementById("new_game").addEventListener("click", () => grid.clear());
+
+    </script>
+</body>
+</html>
