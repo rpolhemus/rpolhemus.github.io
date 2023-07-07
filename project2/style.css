@@ -19,9 +19,7 @@
 
 .box {
     box-sizing: border-box;
-    padding: 10px;
     text-align: center;
-    font-size: 40px;
     border-style: solid;
 }
 
@@ -29,6 +27,8 @@
     .box {
         min-width: 50px;
         min-height: 50px;
+        font-size: 30px;
+        padding: 5px;
     }
 }
 
@@ -36,6 +36,8 @@
     .box {
         min-width: 75px;
         min-height: 75px;
+        padding: 10px;
+        font-size: 40px;
     }
 }
 
