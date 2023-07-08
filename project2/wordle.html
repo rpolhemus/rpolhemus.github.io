@@ -120,11 +120,29 @@
                     'X-RapidAPI-Host': 'random-word-api.p.rapidapi.com'
                 }
                 };
-                var tmp
+                var tmp;
                 $.ajax(settings).done( (response) => {
-                    this.word = response.word.toUpperCase();
-                    console.log(`The answer is: ${this.word}`);
-                    this.genHTML();
+                    const dict_settings = {
+                    async: true,
+                    crossDomain: true,
+                    url: 'https://lingua-robot.p.rapidapi.com/language/v1/entries/en/' + response.word.toLowerCase(),
+                    method: 'GET',
+                    headers: {
+                        'X-RapidAPI-Key': 'd211a1f59dmshf60e2e91660d6fdp1d72a6jsn756967628a55',
+                        'X-RapidAPI-Host': 'lingua-robot.p.rapidapi.com'
+                    }
+                    };
+
+                    $.ajax(dict_settings).done((dict_response) => {
+                        if (dict_response.entries.length >= 1) {
+                            this.word = response.word.toUpperCase();
+                            console.log(`The answer is: ${this.word}`);
+                            this.genHTML();
+                        }
+                        else {
+                            this.acquireWord();
+                        }
+                    });
                 });
             }
 
@@ -151,7 +169,7 @@
                 this.numGuesses++;
                 this.genHTML();
 
-                setTimeout(() => this.checkVictory(upperGuess), 5); // Duct tape fix to ensure the HTML updates before the alert
+                setTimeout(() => this.checkVictory(upperGuess), 25); // Duct tape fix to ensure the HTML updates before the alert
             }
 
             genHTML() {
@@ -161,21 +179,24 @@
                         this.html += this.grid[row][col].html;
                     }
                 }
+
                 document.getElementById(this.elemID).innerHTML = this.html;
                 return this.html;
             }
 
             reset() {
-                for (let row = 0; row < 6; row++) {
-                    for (let col = 0; col < 5; col++) {
-                        this.grid[row][col].clear();
+                $.each(this.grid, 
+                    function(_, row) {
+                        $.each(row, (_, el) => {el.clear()})
                     }
-                }
+                )
+
                 this.numGuesses = 0;
                 $("#new_game").css ("display", "none");
                 this.html = "Please wait, loading...";
                 document.getElementById(this.elemID).innerHTML = this.html;
                 document.getElementById("submit_guess").addEventListener("click", () => grid.guessWord(document.getElementById("guess").value));
+                document.getElementById("guess").value = "";
                 this.genHTML();
                 this.acquireWord();
             }
@@ -206,8 +227,36 @@
 
 
         function submitGuess() {
-            grid.guessWord(document.getElementById("guess").value);
+            guess = document.getElementById("guess").value;
+
+            if (guess.length != 5) {
+                alert(`${guess} does not have 5 letters`);
+                return;
+            }
+
+            const settings = {
+            async: true,
+            crossDomain: true,
+            url: 'https://lingua-robot.p.rapidapi.com/language/v1/entries/en/' + guess.toLowerCase(),
+            method: 'GET',
+            headers: {
+                'X-RapidAPI-Key': 'd211a1f59dmshf60e2e91660d6fdp1d72a6jsn756967628a55',
+                'X-RapidAPI-Host': 'lingua-robot.p.rapidapi.com'
+            }
+            };
+
+            $.ajax(settings).done((response) => {
+                if (response.entries.length >= 1) {
+                    grid.guessWord(guess);
+                }
+                else {
+                    alert(`${guess} is not recognized as as word.`);
+                }
+            });
+
         }
+
+
         document.getElementById("submit_guess").addEventListener("click", submitGuess);
 
         document.getElementById("new_game").addEventListener("click", () => grid.reset());
